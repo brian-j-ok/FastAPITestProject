@@ -998,25 +998,5 @@
         "roles": [
             "user"
         ]
-    },
-    {
-        "id": "b4c1f5a5-9cd9-4d54-bacc-ab243f8b005a",
-        "first_name": "Brian",
-        "last_name": "O'Kelly",
-        "middle_name": null,
-        "email": "brianjrok@gmail.com",
-        "roles": [
-            "user"
-        ]
-    },
-    {
-        "id": "b4c1f5a5-9cd9-4d54-bacc-ab243f8b005a",
-        "first_name": "Brian",
-        "last_name": "O'Kelly",
-        "middle_name": null,
-        "email": "brianjrok@gmail.com",
-        "roles": [
-            "user"
-        ]
     }
 ]

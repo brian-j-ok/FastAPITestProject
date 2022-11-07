@@ -12,18 +12,20 @@ app = FastAPI()
 
 db: List[User] = []
 
-with open('user_db.json', 'r') as file:
-    data = json.load(file)
 
-    for person in data:
-        user = User(
-            id=uuid.UUID(person['id']),
-            first_name=person['first_name'],
-            last_name=person['last_name'],
-            email=person['email'],
-            roles=[Role.user]
-        )
-        db.append(user)
+def load_db():
+    with open('user_db.json', 'r') as file:
+        data = json.load(file)
+
+        for person in data:
+            user = User(
+                id=uuid.UUID(person['id']),
+                first_name=person['first_name'],
+                last_name=person['last_name'],
+                email=person['email'],
+                roles=[Role.user]
+            )
+            db.append(user)
 
 
 def save_db():
@@ -53,6 +55,8 @@ def save_db():
 # with open("user_db.json", "w") as file:
 #     file.write(json_user_db)
 
+load_db()
+
 
 # Path operations are evaluated in order!!!
 @app.get("/")
@@ -78,5 +82,15 @@ async def get_user(user_id: str):
 @app.post("/users")
 async def create_user(user: User):
     db.append(user)
-    save_db()
     return user
+
+
+@app.put("/users/{user_id}")
+async def update_user(user_id: str, updated_user: User):
+    for db_user in db:
+        converted_id = uuid.UUID(user_id)
+        if converted_id == db_user.id:
+            print(db[user_id])
+            return db_user
+        else:
+            print("User not found")
