@@ -41,3 +41,9 @@ async def get_users():
 async def get_user(user_id: UUID):
     for user in db:
         return user if user.id == user_id else {"message": "User not found..."}
+
+
+@app.post("/users")
+async def create_user(user: User):
+    db.append(user)
+    return user

@@ -1,0 +1,8 @@
+# curl -X POST --location "http://127.0.0.1:8000/users"
+POST http://127.0.0.1:8000/users
+Content-Type: application/json
+Cookie: first_name=first-value
+
+{ "first_name": "Brian", "last_name":  "O'Kelly", "email": "brianjrok@gmail.com", "roles": ["user"]}
+
+###
