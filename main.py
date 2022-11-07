@@ -81,6 +81,7 @@ async def get_user(user_id: str):
 
 @app.post("/users")
 async def create_user(user: User):
+    # TODO 1. Check if user is in db
     db.append(user)
     return user
 
@@ -90,7 +91,8 @@ async def update_user(user_id: str, updated_user: User):
     for db_user in db:
         converted_id = uuid.UUID(user_id)
         if converted_id == db_user.id:
-            print(db[user_id])
-            return db_user
+            db.pop(db.index(db_user))
+            db.append(updated_user)
+            return updated_user
         else:
             print("User not found")

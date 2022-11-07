@@ -7,10 +7,11 @@ Cookie: first_name=first-value
 
 ###
 
-# curl -X PUT --location "http://127.0.0.1:8000/users/user_id"
-PUT http://127.0.0.1:8000/users/user_id
+# curl -X PUT --location "http://127.0.0.1:8000/users/37aeb7bf-087c-4776-bc8d-0d8ced73b0af"
+PUT http://127.0.0.1:8000/users/37aeb7bf-087c-4776-bc8d-0d8ced73b0af
 Content-Type: application/json
 Cookie: first_name=first-value
 
-{ "first_name": "Brian", "last_name":  "O'Kelly", "middle_name": "Jozef", "email": "brianjrok@gmail.com", "roles": ["user"]}
+{ "first_name": "New", "last_name":  "Name", "middle_name": "Jozef", "email": "brianjrok@gmail.com", "roles": ["user"]}
 ###
+
