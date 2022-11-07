@@ -96,3 +96,13 @@ async def update_user(user_id: str, updated_user: User):
             return updated_user
         else:
             print("User not found")
+
+
+@app.delete("users/{user_id}")
+async def delete_user(user_id: str):
+    for db_user in db:
+        converted_id = uuid.UUID(user_id)
+        if converted_id == db_user.id:
+            db.pop(db.index(db_user))
+        else:
+            print("User not found")
