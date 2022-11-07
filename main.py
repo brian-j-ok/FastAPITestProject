@@ -67,8 +67,12 @@ async def get_users():
 
 @app.get("/users/{user_id}")
 async def get_user(user_id: str):
-    for user in db:
-        return user if user.id == uuid.UUID(user_id) else {"message": "User not found..."}
+    for db_user in db:
+        converted_id = uuid.UUID(user_id)
+        if converted_id == db_user.id:
+            return db_user
+        else:
+            print("Didn't")
 
 
 @app.post("/users")
