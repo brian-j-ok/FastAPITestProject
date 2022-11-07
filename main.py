@@ -25,6 +25,13 @@ with open('user_db.json', 'r') as file:
         )
         db.append(user)
 
+
+def save_db():
+    json_user_db = json.dumps(jsonable_encoder(db), indent=4)
+    with open('user_db.json', 'w') as db_file:
+        db_file.write(json_user_db)
+
+
 # def fetch_users():
 #     file = open('MOCK_USER_DATA.json')
 #     data = json.load(file)
@@ -59,12 +66,13 @@ async def get_users():
 
 
 @app.get("/users/{user_id}")
-async def get_user(user_id: UUID):
+async def get_user(user_id: str):
     for user in db:
-        return user if user.id == user_id else {"message": "User not found..."}
+        return user if user.id == uuid.UUID(user_id) else {"message": "User not found..."}
 
 
 @app.post("/users")
 async def create_user(user: User):
     db.append(user)
+    save_db()
     return user
