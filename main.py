@@ -1,7 +1,10 @@
+import uuid
+
 from fastapi import FastAPI
 from models import User, Role
 from typing import List
 from uuid import UUID, uuid4
+from fastapi.encoders import jsonable_encoder
 
 import json
 
@@ -9,13 +12,12 @@ app = FastAPI()
 
 db: List[User] = []
 
-def fetch_users():
-    file = open('MOCK_USER_DATA.json')
+with open('user_db.json', 'r') as file:
     data = json.load(file)
 
     for person in data:
         user = User(
-            id=uuid4(),
+            id=uuid.UUID(person['id']),
             first_name=person['first_name'],
             last_name=person['last_name'],
             email=person['email'],
@@ -23,8 +25,27 @@ def fetch_users():
         )
         db.append(user)
 
+# def fetch_users():
+#     file = open('MOCK_USER_DATA.json')
+#     data = json.load(file)
+#
+#     for person in data:
+#         user = User(
+#             id=uuid4(),
+#             first_name=person['first_name'],
+#             last_name=person['last_name'],
+#             email=person['email'],
+#             roles=[Role.user]
+#         )
+#         db.append(user)
+#
+#
+# fetch_users()
+#
+# json_user_db = json.dumps(jsonable_encoder(db), indent=4)
+# with open("user_db.json", "w") as file:
+#     file.write(json_user_db)
 
-fetch_users()
 
 # Path operations are evaluated in order!!!
 @app.get("/")
