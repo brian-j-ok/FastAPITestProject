@@ -1,6 +1,6 @@
 import uuid
 
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from models import User, Role
 from typing import List
 from uuid import UUID, uuid4
@@ -61,7 +61,7 @@ load_db()
 # Path operations are evaluated in order!!!
 @app.get("/")
 async def root():
-    return {"message": "Hello World"}
+    return db
 
 
 @app.get("/users")
@@ -71,19 +71,21 @@ async def get_users():
 
 @app.get("/users/{user_id}")
 async def get_user(user_id: str):
+    converted_id = uuid.UUID(user_id)
+
     for db_user in db:
-        converted_id = uuid.UUID(user_id)
         if converted_id == db_user.id:
             return db_user
         else:
-            print("Didn't")
+            raise HTTPException(status_code=404, detail="User not found")
 
 
 @app.post("/users")
 async def create_user(user: User):
-    # TODO 1. Check if user is in db
-    db.append(user)
-    return user
+    if user in db:
+        return user
+    else:
+        db.append(user)
 
 
 @app.put("/users/{user_id}")
@@ -95,7 +97,7 @@ async def update_user(user_id: str, updated_user: User):
             db.append(updated_user)
             return updated_user
         else:
-            print("User not found")
+            raise HTTPException(status_code=404, detail="User not found")
 
 
 @app.delete("users/{user_id}")
@@ -105,4 +107,4 @@ async def delete_user(user_id: str):
         if converted_id == db_user.id:
             db.pop(db.index(db_user))
         else:
-            print("User not found")
+            raise HTTPException(status_code=404, detail="User not found")
